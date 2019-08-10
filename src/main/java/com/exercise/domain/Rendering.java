@@ -62,21 +62,21 @@ public class Rendering implements Serializable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("    <rendering>");
-        builder.append("        <!-- Document id -->");
-        builder.append("        <document>" + this.id.getDocument() + "</document>");
-        builder.append("        <page>" + this.id.getPage() + "</page>");
-        builder.append("        <!-- UID of the startRendering -->");
-        builder.append("        <uid>" + this.getUid() + "</uid>");
-        builder.append("        <!-- One or more timestamps of the startRendering -->");
+        builder.append("    <rendering>" + System.lineSeparator());
+        builder.append("        <!-- Document id -->" + System.lineSeparator());
+        builder.append("        <document>" + this.id.getDocument() + "</document>" + System.lineSeparator());
+        builder.append("        <page>" + this.id.getPage() + "</page>" + System.lineSeparator());
+        builder.append("        <!-- UID of the startRendering -->" + System.lineSeparator());
+        builder.append("        <uid>" + this.getUid() + "</uid>" + System.lineSeparator());
+        builder.append("        <!-- One or more timestamps of the startRendering -->" + System.lineSeparator());
         this.getStarts().forEach(start -> {
-            builder.append("        <start>" + start + "</start>");
+            builder.append("        <start>" + start + "</start>" + System.lineSeparator());
         });
-        builder.append("        <!-- One or more timestamps of getRendering -->");
+        builder.append("        <!-- One or more timestamps of getRendering -->" + System.lineSeparator());
         this.getGets().forEach(get -> {
-            builder.append("        <get>" + get + "</get>");
+            builder.append("        <get>" + get + "</get>" + System.lineSeparator());
         });
-        builder.append("    </rendering>");
+        builder.append("    </rendering>" + System.lineSeparator());
         return builder.toString();
     }
 }

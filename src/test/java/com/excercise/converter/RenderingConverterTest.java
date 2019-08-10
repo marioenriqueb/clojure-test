@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Created by mario on 09/08/2019.
  */
-public class RenderingAdapterTest extends BaseTest {
+public class RenderingConverterTest extends BaseTest {
 
     @Autowired
     private RenderingConverter conveter;

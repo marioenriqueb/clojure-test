@@ -63,16 +63,12 @@ public class Rendering implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("    <rendering>" + System.lineSeparator());
-        builder.append("        <!-- Document id -->" + System.lineSeparator());
         builder.append("        <document>" + this.id.getDocument() + "</document>" + System.lineSeparator());
         builder.append("        <page>" + this.id.getPage() + "</page>" + System.lineSeparator());
-        builder.append("        <!-- UID of the startRendering -->" + System.lineSeparator());
         builder.append("        <uid>" + this.getUid() + "</uid>" + System.lineSeparator());
-        builder.append("        <!-- One or more timestamps of the startRendering -->" + System.lineSeparator());
         this.getStarts().forEach(start -> {
             builder.append("        <start>" + start + "</start>" + System.lineSeparator());
         });
-        builder.append("        <!-- One or more timestamps of getRendering -->" + System.lineSeparator());
         this.getGets().forEach(get -> {
             builder.append("        <get>" + get + "</get>" + System.lineSeparator());
         });

@@ -2,6 +2,7 @@ package com.exercise.web.rest;
 
 import com.exercise.domain.Report;
 import com.exercise.service.ScanService;
+import com.exercise.utils.WriterUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.nio.file.Path;
 
 /**
  * REST controller for managing Rovert.
@@ -34,33 +33,13 @@ public class ScanResource {
     private ScanService service;
 
     @PostMapping(value = "/scan", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    //@PostMapping(name = "/scan", produces = MediaType.TEXT_XML_VALUE)
-    //@ResponseBody
     public ResponseEntity<Resource> scan(@RequestParam("file") MultipartFile multipartFile) throws Exception {
         log.debug("REST request to scan log file : {}");
-
-        FileInputStream file = (FileInputStream) multipartFile.getInputStream();
-        Report reporte = service.scan(file);
-
-        String fileName = multipartFile.getOriginalFilename().replace("log", "xml");
-        File result = new File(fileName);
-
-        // Create the file
-        result.delete();
-        result.createNewFile();
-
-        //Write Content
-        FileWriter writer = new FileWriter(result);
-        writer.write(reporte.toString());
-        writer.close();
-
-        Path filePath = result.toPath();
-        Resource resource = new UrlResource(filePath.toUri());
-
+        File file = service.scan(multipartFile);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
-                .body(resource);
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .body(new UrlResource(file.toPath().toUri()));
     }
 
 }

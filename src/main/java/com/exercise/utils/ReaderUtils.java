@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LogReaderUtils {
+public class ReaderUtils {
 
     // YYYY-MM-DD HH:mm:ss,SSS
     public final static String TIMESTAMP_FORMAT = "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{3})";

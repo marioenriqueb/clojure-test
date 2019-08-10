@@ -1,6 +1,6 @@
 package com.excercise.utils;
 
-import com.exercise.utils.LogReaderUtils;
+import com.exercise.utils.ReaderUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 /**
  * Created by mario on 09/08/2019.
  */
-public class LogReaderUtilsTest {
+public class ReaderUtilsTest {
 
     public static final String GROUP1 = "2010-10-06 09:06:47,074";
     public static final String GROUP2 = "[WorkerThread-19]";
@@ -25,7 +25,7 @@ public class LogReaderUtilsTest {
         String line = GROUP1 + " " + GROUP2 + " " + GROUP3 + " " + GROUP4 + " " + GROUP5;
 
         // Test
-        Matcher matcher = LogReaderUtils.LOG_PATTERN.matcher(line);
+        Matcher matcher = ReaderUtils.LOG_PATTERN.matcher(line);
         if (!matcher.find()) {
             Assert.fail();
             Assert.assertEquals(GROUP1, matcher.group(1));
@@ -40,7 +40,7 @@ public class LogReaderUtilsTest {
     public void timestampPatternTest()  {
         // Before
         String line = "2010-10-06 09:06:47,074";
-        Pattern pattern = Pattern.compile(LogReaderUtils.TIMESTAMP_FORMAT);
+        Pattern pattern = Pattern.compile(ReaderUtils.TIMESTAMP_FORMAT);
 
         // Test
         Matcher matcher = pattern.matcher(line);
@@ -53,7 +53,7 @@ public class LogReaderUtilsTest {
     public void threadPatternTest()  {
         // Before
         String[] lines = {"[WorkerThread-19]", "[RenderingQueue]"};
-        Pattern pattern = Pattern.compile(LogReaderUtils.THREAD_FORMAT);
+        Pattern pattern = Pattern.compile(ReaderUtils.THREAD_FORMAT);
 
         // Test
         Arrays.stream(lines).forEach(line -> {
@@ -73,7 +73,7 @@ public class LogReaderUtilsTest {
     public void logLevelPatternTest()  {
         // Before
         String[] lines = {"DEBUG", "INFO ", "WARN" , "ERROR"};
-        Pattern pattern = Pattern.compile(LogReaderUtils.LOG_LEVEL_FORMAT);
+        Pattern pattern = Pattern.compile(ReaderUtils.LOG_LEVEL_FORMAT);
 
         // Test
         Arrays.stream(lines).forEach(line -> {
@@ -93,7 +93,7 @@ public class LogReaderUtilsTest {
     public void senderPatternTest()  {
         // Before
         String line = "[DmsObjectDeterminator]:";
-        Pattern pattern = Pattern.compile(LogReaderUtils.SENDER_FORMAT);
+        Pattern pattern = Pattern.compile(ReaderUtils.SENDER_FORMAT);
 
         // Test
         Matcher matcher = pattern.matcher(line);
@@ -106,7 +106,7 @@ public class LogReaderUtilsTest {
     public void messagePatternTest()  {
         // Before
         String line = "Processing command object: {arguments=[114275, 0], type=request, name=startRendering}";
-        Pattern pattern = Pattern.compile(LogReaderUtils.MESSAGE_FORMAT);
+        Pattern pattern = Pattern.compile(ReaderUtils.MESSAGE_FORMAT);
 
         // Test
         Matcher matcher = pattern.matcher(line);
@@ -121,7 +121,7 @@ public class LogReaderUtilsTest {
         String line = "Executing request startRendering with arguments [115392, 0] on service object { ReflectionServiceObject -> com.dn.gaverzicht.dms.services.DocumentService@4a3a4a3a }";
 
         // Test
-        Matcher matcher = LogReaderUtils.START_RENDERING_PATTERN.matcher(line);
+        Matcher matcher = ReaderUtils.START_RENDERING_PATTERN.matcher(line);
         if (matcher.find()) {
             Assert.assertEquals("[115392, 0]", matcher.group(1));
         } else {
@@ -136,7 +136,7 @@ public class LogReaderUtilsTest {
 
         // Test
         Arrays.stream(lines).forEach(line -> {
-            Matcher matcher = LogReaderUtils.RENDERING_UID_PATTERN.matcher(line);
+            Matcher matcher = ReaderUtils.RENDERING_UID_PATTERN.matcher(line);
             if (!matcher.find()) {
                 Assert.fail();
             }
@@ -145,7 +145,7 @@ public class LogReaderUtilsTest {
         String line = "Service startRendering returned 1286374050308-1583";
 
         // Test
-        Matcher matcher = LogReaderUtils.RENDERING_UID_PATTERN.matcher(line);
+        Matcher matcher = ReaderUtils.RENDERING_UID_PATTERN.matcher(line);
         if (matcher.find()) {
             Assert.assertEquals("1286374050308-1583", matcher.group(1));
         } else {
@@ -159,7 +159,7 @@ public class LogReaderUtilsTest {
         String line = "Executing request getRendering with arguments [1286375469143-4450] on service object { ReflectionServiceObject -> com.dn.gaverzicht.dms.services.DocumentService@4a3a4a3a }";
 
         // Test
-        Matcher matcher = LogReaderUtils.GET_RENDERING_PATTERN.matcher(line);
+        Matcher matcher = ReaderUtils.GET_RENDERING_PATTERN.matcher(line);
         if (matcher.find()) {
             Assert.assertEquals("1286375469143-4450", matcher.group(1));
         } else {
@@ -173,7 +173,7 @@ public class LogReaderUtilsTest {
         String line = "[115392, 0]";
 
         // Test
-        Matcher matcher = LogReaderUtils.RENDERING_ARGS_PATTERN.matcher(line);
+        Matcher matcher = ReaderUtils.RENDERING_ARGS_PATTERN.matcher(line);
         if (matcher.find()) {
             Assert.assertEquals("115392", matcher.group(1));
             Assert.assertEquals("0", matcher.group(2));
@@ -188,7 +188,7 @@ public class LogReaderUtilsTest {
         String line = "1286375469143-4450";
 
         // Test
-        Matcher matcher = LogReaderUtils.UID_PATTERN.matcher(line);
+        Matcher matcher = ReaderUtils.UID_PATTERN.matcher(line);
         if (matcher.find()) {
             Assert.assertEquals("1286375469143-4450", matcher.group(0));
         } else {

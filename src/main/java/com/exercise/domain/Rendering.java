@@ -9,7 +9,8 @@ import java.util.List;
  */
 public class Rendering implements Serializable {
 
-    private RenderingId id;
+    private Long document;
+    private Integer page;
     private String uid;
     private List<String> starts;
     private List<String> gets;
@@ -19,12 +20,20 @@ public class Rendering implements Serializable {
         this.gets = new ArrayList<>();
     }
 
-    public RenderingId getId() {
-        return id;
+    public Long getDocument() {
+        return document;
     }
 
-    public void setId(RenderingId id) {
-        this.id = id;
+    public void setDocument(Long document) {
+        this.document = document;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
     public String getUid() {

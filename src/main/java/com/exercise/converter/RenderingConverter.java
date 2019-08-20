@@ -4,6 +4,7 @@ import com.exercise.domain.Rendering;
 import com.exercise.domain.RenderingId;
 import com.exercise.domain.Report;
 import com.exercise.utils.ReaderUtils;
+import javafx.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,8 +16,6 @@ import java.util.stream.Stream;
 @Component
 public class RenderingConverter {
 
-    public final String CURRENT = "CURRENT";
-
     public Report convert(List<String> lines) {
         Map<String, Rendering> renderings = new HashMap<>();
 
@@ -25,23 +24,22 @@ public class RenderingConverter {
                 .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
                 .forEach(logRecord -> {
                     String message = logRecord.getMessage();
+                    Rendering current = new Rendering();
 
                     // Start Rendering
                     if (ReaderUtils.matchStartRenderingMessage(message)) {
                         RenderingId renderingId = ReaderUtils.readStartRenderingMessage(message);
-
-                        if (renderings.get(renderingId) == null) {
-                            Rendering rendering = new Rendering();
-                            rendering.setId(renderingId);
-                            renderings.put(CURRENT, rendering);
-                        }
+                        current.setDocument(renderingId.getDocument());
+                        current.setPage(renderingId.getPage());
                     }
 
                     // UID Recived
                     if(ReaderUtils.matchRenderingUIDMessage(message)) {
                         String uid = ReaderUtils.readRenderingUIDMessage(message);
-                        Rendering current = renderings.get(CURRENT);
-                        if (current != null){
+                        Rendering rendering = renderings.get(uid);
+                        if (rendering != null) {
+                            rendering.addStart(logRecord.getTimestamp());
+                        } else {
                             current.setUid(uid);
                             current.addStart(logRecord.getTimestamp());
                             renderings.put(uid, current);

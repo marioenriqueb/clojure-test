@@ -3,6 +3,7 @@ package com.exercise.utils;
 import com.exercise.domain.LogRecord;
 import com.exercise.domain.RenderingId;
 import com.exercise.domain.enums.LogLevel;
+import javafx.util.Pair;
 
 import java.util.Optional;
 import java.util.regex.Matcher;

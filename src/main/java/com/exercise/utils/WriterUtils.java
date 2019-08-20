@@ -1,17 +1,10 @@
 package com.exercise.utils;
 
-import com.exercise.domain.LogRecord;
-import com.exercise.domain.RenderingId;
 import com.exercise.domain.Report;
-import com.exercise.domain.enums.LogLevel;
 import com.exercise.exception.ScanException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
-import java.beans.XMLEncoder;
 import java.io.*;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class WriterUtils {
 

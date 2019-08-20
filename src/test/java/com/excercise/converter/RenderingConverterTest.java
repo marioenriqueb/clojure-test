@@ -40,8 +40,8 @@ public class RenderingConverterTest extends BaseTest {
         }
 
         Report result = conveter.convert(lines);
-        Assert.assertEquals(Integer.valueOf(859), result.getCount());
+        Assert.assertEquals(Integer.valueOf(858), result.getCount());
         Assert.assertEquals(Long.valueOf(198), result.getUnnecessary());
-        Assert.assertEquals(Long.valueOf(1), result.getDuplicates());
+        Assert.assertEquals(Long.valueOf(58), result.getDuplicates());
     }
 }

@@ -25,16 +25,15 @@ public class Palindromo {
     }
 
     private static Boolean check(String cadeia) {
+
         cadeia = cadeia.trim();
 
         if (cadeia.isEmpty() || cadeia.length() % 2 > 0) {
             return Boolean.FALSE;
         }
 
-        int cadeiaLength = cadeia.length();
-        char[] a = cadeia.substring(0, cadeiaLength / 2).toCharArray();
-        char[] b = cadeia.substring(cadeiaLength / 2, cadeiaLength).toCharArray();
-
-        return (IntStream.range(0, a.length).map(i -> a[(a.length - 1) - i] == b[i] ? 0 : 1).sum()) == 0;
+        String temp  = cadeia.trim().toLowerCase();
+        return IntStream.range(0, temp.length() / 2)
+                .noneMatch(i -> temp.charAt(i) != temp.charAt(temp.length() - i - 1));
     }
 }

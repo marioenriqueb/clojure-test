@@ -1,5 +1,10 @@
 package com.exercise;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Percentage {
@@ -7,56 +12,35 @@ public class Percentage {
     private static final String TEST_OK = "OK";
 
     public static void main(String[] args) {
-        String[] list1 = { "test1", "test2", "test3", "test4", "test5", "test6", "test7" };
-        String[][] list2 = {
-                new String[] { "OK", "OK", "OK", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "OK", "OK", "OK", "OK" }};
-
-        testPercentage(list1, list2);
-
-        list2 = new String[][] {
-                new String[] { "NO", "OK", "OK", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "NO", "OK", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "NO", "OK", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "NO", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "OK", "NO", "OK", "NO" }};
-
-        testPercentage(list1, list2);
-
-        list2 = new String[][] {
-                new String[] { "NO", "NO", "OK", "NO", "OK", "OK", "OK" },
-                new String[] { "OK", "NO", "OK", "NO", "OK", "OK", "NO" },
-                new String[] { "OK", "NO", "NO", "NO", "OK", "OK", "OK" },
-                new String[] { "OK", "NO", "OK", "NO", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "NO", "NO", "OK", "NO" }};
-
-        testPercentage(list1, list2);
-
-        list2 = new String[][] {
-                new String[] { "NO", "NO", "OK", "NO", "OK", "OK", "OK" },
-                new String[] { "OK", "NO", "OK", "NO", "OK", "OK", "NO" },
-                new String[] { "NO", "NO", "NO", "NO", "NO", "NO", "NO" },
-                new String[] { "OK", "NO", "OK", "NO", "OK", "OK", "OK" },
-                new String[] { "OK", "OK", "OK", "NO", "NO", "OK", "NO" }};
+        String[] list1 = { "test1a", "test2", "test1b", "test1c", "test3"};
+        String[] list2 = { "Wrong answer", "OK", "Runtime error", "OK", "Time limit exceeded" };
 
         testPercentage(list1, list2);
     }
 
-    private static void testPercentage(String[] tests, String[][] results) {
+    private static void testPercentage(String[] tests, String[] results) {
         System.out.println("Final Percentage = " + play(tests, results));
     }
 
-    private static Double play(String[] tests, String[][] results) {
+    private static Integer play(String[] T, String[] R) {
 
-        return IntStream.range(0, tests.length).mapToDouble(test -> {
-            Double percentage = (IntStream.range(0, results.length)
-                    .mapToDouble(result -> TEST_OK.equalsIgnoreCase(results[result][test]) ? 1.0 : 0.0)
-                    .sum() / results.length) * 100;
-                    // System.out.println(tests[test] + " = " + percentage);
-                    return percentage;
-        }).average().orElse(0);
+        Map<Integer, Boolean> mapa = new HashMap<>();
+
+        List<Integer> groups = Arrays.stream(T)
+                .map(str -> Integer.valueOf(str.replaceAll("\\D+", "")))
+                .collect(Collectors.toList());
+
+        int[] results = IntStream
+                .range(0, R.length)
+                .map(i -> TEST_OK.equalsIgnoreCase(R[i]) ? 1 : 0).toArray();
+
+        IntStream.range(0, R.length).forEach(index -> {
+            Integer key = groups.get(index);
+            Boolean value = results[index] == 1;
+            mapa.put(key, mapa.get(key) == null ? value : mapa.get(key) && value);
+        });
+
+        return (int) Math.round(((mapa.keySet().stream().mapToDouble(key -> mapa.get(key) ? 1.0 : 0.0).sum() / T.length) * 100));
     }
+
 }

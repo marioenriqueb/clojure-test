@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class Cards {
 
-    private static final Map<Character, Integer> cardValue = new HashMap<Character, Integer>() {{
+    private static final Map<Character, Integer> CARD_VALUES = new HashMap<Character, Integer>() {{
         put('A', 14);
         put('K', 13);
         put('Q', 12);
@@ -34,21 +34,17 @@ public class Cards {
     }
 
     private static void testGame(String[] cards) {
-        System.out.println("Alex: " + cards[0] + ", Mario: " + cards[1] + " = " + play(cards));
+        System.out.println("Alec: " + cards[0] + ", Bob: " + cards[1] + " = " + play(cards[0], cards[1]));
     }
 
-    private static String play(String[] cards) {
-        String alex = cards[0];
-        String mario = cards[1];
+    private static Integer play(String A, String B) {
 
-        Integer gameResult = IntStream.range(0, alex.length()).map(i -> {
-            Integer alexCard = cardValue.get(alex.charAt(i));
-            Integer marioCard = cardValue.get(mario.charAt(i));
-            if (alexCard == null || marioCard == null || alexCard == marioCard) return 0;
-            else if (alexCard > marioCard) return -1;
-            else return 1;
-        }).sum();
-
-        return (gameResult < 0 ? "Alex" : (gameResult > 0 ? "Mario" : "-"));
+        return IntStream
+                .range(0, A.length())
+                .map(i -> {
+                    Integer alecCard = CARD_VALUES.get(A.charAt(i));
+                    Integer bobCard = CARD_VALUES.get(B.charAt(i));
+                    return alecCard > bobCard ? 1 : 0;
+                }).sum();
     }
 }
